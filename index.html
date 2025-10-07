@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALL Claim Cite Tutor</title>
+    <title>Academic Literacy Tutor</title>
     <style>
         * {
             margin: 0;
@@ -28,7 +28,7 @@
             display: flex;
         }
 
-        /* Left Column - Simple Navigation Bar */
+        /* Left Column - Minimal Navigation */
         .left-column {
             width: 60px;
             background: var(--dark-blue);
@@ -122,10 +122,9 @@
 
         .message {
             max-width: 80%;
-            padding: 15px 20px;
-            border-radius: 18px;
-            line-height: 1.5;
-            position: relative;
+            padding: 12px 18px;
+            border-radius: 16px;
+            line-height: 1.4;
         }
 
         .user-message {
@@ -144,18 +143,18 @@
 
         /* Chat Input */
         .chat-input {
-            padding: 20px;
+            padding: 15px 20px;
             border-top: 1px solid #e0e0e0;
             display: flex;
-            gap: 15px;
+            gap: 12px;
         }
 
         .chat-input input {
             flex: 1;
-            padding: 15px 20px;
+            padding: 12px 18px;
             border: 2px solid #e0e0e0;
-            border-radius: 50px;
-            font-size: 1rem;
+            border-radius: 45px;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
         }
 
@@ -169,8 +168,8 @@
             background: var(--dark-blue);
             color: var(--white);
             border: none;
-            border-radius: 50px;
-            padding: 0 25px;
+            border-radius: 45px;
+            padding: 0 20px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -178,10 +177,10 @@
 
         .chat-input button:hover {
             background: var(--dark-orange);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
 
-        /* Digital Effects - Subtle */
+        /* Digital Effects - Minimal */
         .digital-effect {
             position: absolute;
             top: 0;
@@ -199,6 +198,15 @@
                 linear-gradient(90deg, rgba(10, 36, 99, 0.7) 1px, transparent 1px);
             background-size: 40px 40px;
         }
+
+        /* Minimal text - reduce font sizes */
+        .message {
+            font-size: 0.92rem;
+        }
+
+        .chat-header h2 {
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -208,7 +216,7 @@
             <i class="fas fa-comment"></i>
         </div>
         <div class="nav-icon">
-            <i class="fas fa-file-alt"></i>
+            <i class="fas fa-book"></i>
         </div>
         <div class="nav-icon">
             <i class="fas fa-history"></i>
@@ -222,33 +230,17 @@
     <div class="right-column">
         <div class="chat-header">
             <div class="status-dot"></div>
-            <h2>ALL Claim Cite Tutor</h2>
+            <h2>Academic Literacy</h2>
         </div>
         
         <div class="chat-messages">
-            <div class="message bot-message">
-                Hello! I'm ready to help with your legal citation needs. How can I assist you today?
-            </div>
-            
-            <div class="message user-message">
-                I need help formatting a legal claim for a personal injury case in California.
-            </div>
-            
-            <div class="message bot-message">
-                Under California law, personal injury claims should include:
-                <ol style="padding-left: 20px; margin-top: 8px;">
-                    <li>Plaintiff and Defendant information</li>
-                    <li>Statement of jurisdiction</li>
-                    <li>Factual allegations with specific dates</li>
-                    <li>Legal claims (e.g., negligence)</li>
-                    <li>Damages sought</li>
-                </ol>
-                Would you like me to provide a template?
-            </div>
+            <div class="message bot-message">How can I help?</div>
+            <div class="message user-message">Citation help</div>
+            <div class="message bot-message">Which style?</div>
         </div>
         
         <div class="chat-input">
-            <input type="text" placeholder="Type your message...">
+            <input type="text" placeholder="Ask...">
             <button>
                 <i class="fas fa-paper-plane"></i>
             </button>
@@ -256,7 +248,7 @@
     </div>
 
     <script>
-        // Simple chat functionality
+        // Minimal chat functionality
         document.querySelector('.chat-input button').addEventListener('click', function() {
             const input = document.querySelector('.chat-input input');
             const message = input.value.trim();
@@ -275,18 +267,18 @@
                 // Auto-scroll to bottom
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 
-                // Simulate bot response after delay
+                // Simulate bot response
                 setTimeout(() => {
                     const botMessage = document.createElement('div');
                     botMessage.className = 'message bot-message';
-                    botMessage.textContent = "I've received your request. Let me analyze the legal requirements for your case...";
+                    botMessage.textContent = "Please specify";
                     messagesContainer.appendChild(botMessage);
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                }, 1000);
+                }, 800);
             }
         });
         
-        // Allow Enter key to send
+        // Enter key to send
         document.querySelector('.chat-input input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 document.querySelector('.chat-input button').click();
@@ -303,3 +295,4 @@
     </script>
 </body>
 </html>
+
