@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALL Claim Cite Tutor</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -16,166 +15,117 @@
         :root {
             --dark-blue: #0a2463;
             --dark-orange: #ff6b35;
-            --light-blue: #e6f0ff;
-            --light-orange: #ffe0d6;
             --white: #ffffff;
             --black: #000000;
+            --light-gray: #f5f5f5;
         }
 
         body {
             background-color: var(--white);
             color: var(--black);
-            line-height: 1.6;
-            padding: 20px;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(10, 36, 99, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255, 107, 53, 0.05) 0%, transparent 20%);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Header Styles */
-        header {
-            text-align: center;
-            padding: 30px 0;
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
-            background: linear-gradient(90deg, var(--dark-blue), var(--dark-orange));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            letter-spacing: 1px;
-        }
-
-        .subtitle {
-            font-size: 1.4rem;
-            color: var(--dark-blue);
-            max-width: 700px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .subtitle::before,
-        .subtitle::after {
-            content: "";
-            position: absolute;
-            height: 2px;
-            width: 40px;
-            background: linear-gradient(90deg, var(--dark-blue), var(--dark-orange));
-            top: 50%;
-        }
-
-        .subtitle::before {
-            left: -50px;
-        }
-
-        .subtitle::after {
-            right: -50px;
-        }
-
-        /* Digital Effects */
-        .digital-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .grid-pattern {
-            background-image: 
-                linear-gradient(rgba(10, 36, 99, 0.07) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(10, 36, 99, 0.07) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        .circuit-lines {
-            background-image: 
-                radial-gradient(circle, var(--dark-blue) 1px, transparent 1px),
-                radial-gradient(circle, var(--dark-orange) 1px, transparent 1px);
-            background-size: 100px 100px;
-            opacity: 0.05;
-        }
-
-        /* Chat Interface */
-        .chat-container {
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        @media (max-width: 900px) {
-            .chat-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Main Chat Area */
-        .chat-area {
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            height: 100vh;
             overflow: hidden;
             display: flex;
-            flex-direction: column;
-            height: 600px;
         }
 
+        /* Left Column - Simple Navigation Bar */
+        .left-column {
+            width: 60px;
+            background: var(--dark-blue);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            position: relative;
+        }
+
+        .left-column::before {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--dark-blue), var(--dark-orange));
+        }
+
+        .nav-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-icon.active {
+            background: var(--dark-orange);
+        }
+
+        .nav-icon i {
+            color: white;
+            font-size: 18px;
+        }
+
+        /* Right Column - Chat Interface */
+        .right-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Chat Header */
         .chat-header {
             background: var(--dark-blue);
-            color: var(--white);
+            color: white;
             padding: 15px 25px;
             display: flex;
             align-items: center;
             gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .chat-header i {
-            font-size: 1.5rem;
-            color: var(--dark-orange);
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--dark-orange);
+            box-shadow: 0 0 8px var(--dark-orange);
+            animation: pulse 2s infinite;
         }
 
-        .chat-header h2 {
-            font-size: 1.4rem;
-            font-weight: 600;
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 107, 53, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
         }
 
+        /* Chat Messages Area */
         .chat-messages {
             flex: 1;
             padding: 25px;
             overflow-y: auto;
-            background: var(--light-blue);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: var(--light-gray);
         }
 
         .message {
             max-width: 80%;
-            margin-bottom: 20px;
             padding: 15px 20px;
             border-radius: 18px;
             line-height: 1.5;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            position: relative;
         }
 
         .user-message {
@@ -192,13 +142,7 @@
             border-bottom-left-radius: 5px;
         }
 
-        .message-time {
-            font-size: 0.75rem;
-            opacity: 0.7;
-            margin-top: 8px;
-            display: block;
-        }
-
+        /* Chat Input */
         .chat-input {
             padding: 20px;
             border-top: 1px solid #e0e0e0;
@@ -235,302 +179,84 @@
         .chat-input button:hover {
             background: var(--dark-orange);
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(10, 36, 99, 0.2);
         }
 
-        /* Sidebar */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .card {
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-        }
-
-        .card-header {
-            background: var(--dark-blue);
-            color: var(--white);
-            padding: 15px 20px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .card-header i {
-            color: var(--dark-orange);
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .feature-list {
-            list-style: none;
-        }
-
-        .feature-list li {
-            padding: 12px 0;
-            border-bottom: 1px dashed #e0e0e0;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .feature-list li:last-child {
-            border-bottom: none;
-        }
-
-        .feature-list i {
-            color: var(--dark-orange);
-            margin-top: 3px;
-        }
-
-        .example-box {
-            background: var(--light-orange);
-            border-left: 4px solid var(--dark-orange);
-            padding: 15px;
-            border-radius: 0 4px 4px 0;
-            margin-top: 15px;
-            font-size: 0.95rem;
-        }
-
-        .example-title {
-            font-weight: 600;
-            color: var(--dark-orange);
-            margin-bottom: 8px;
-        }
-
-        .example-content {
-            background: white;
-            padding: 12px;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            border: 1px solid #e0e0e0;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            color: var(--dark-blue);
-            font-size: 0.9rem;
-            border-top: 1px solid #e0e0e0;
-            margin-top: 20px;
-        }
-
-        .footer-content {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .highlight {
-            color: var(--dark-orange);
-            font-weight: 600;
-        }
-
-        /* Glitch effect for digital feel */
-        .glitch {
-            position: relative;
-            display: inline-block;
-        }
-
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
+        /* Digital Effects - Subtle */
+        .digital-effect {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.03;
         }
 
-        .glitch::before {
-            left: 2px;
-            text-shadow: -1px 0 var(--dark-orange);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-1 2s infinite linear alternate-reverse;
-        }
-
-        .glitch::after {
-            left: -2px;
-            text-shadow: -1px 0 var(--dark-blue);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-2 3s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-1 {
-            0% { clip: rect(42px, 9999px, 54px, 0); }
-            20% { clip: rect(22px, 9999px, 45px, 0); }
-            40% { clip: rect(56px, 9999px, 90px, 0); }
-            60% { clip: rect(18px, 9999px, 50px, 0); }
-            80% { clip: rect(44px, 9999px, 80px, 0); }
-            100% { clip: rect(60px, 9999px, 95px, 0); }
-        }
-
-        @keyframes glitch-2 {
-            0% { clip: rect(65px, 9999px, 90px, 0); }
-            20% { clip: rect(35px, 9999px, 60px, 0); }
-            40% { clip: rect(70px, 9999px, 100px, 0); }
-            60% { clip: rect(25px, 9999px, 50px, 0); }
-            80% { clip: rect(55px, 9999px, 85px, 0); }
-            100% { clip: rect(40px, 9999px, 75px, 0); }
-        }
-
-        /* Additional digital effects */
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(10, 36, 99, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(10, 36, 99, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(10, 36, 99, 0); }
+        .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(10, 36, 99, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10, 36, 99, 0.7) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="digital-effect grid-pattern"></div>
-            <div class="digital-effect circuit-lines"></div>
-            <div class="header-content">
-                <h1 class="glitch" data-text="ALL Claim Cite Tutor">ALL Claim Cite Tutor</h1>
-                <p class="subtitle">Your AI-powered assistant for legal claim citation and reference management</p>
-            </div>
-        </header>
+    <!-- Left Column - Minimal Navigation -->
+    <div class="left-column">
+        <div class="nav-icon active">
+            <i class="fas fa-comment"></i>
+        </div>
+        <div class="nav-icon">
+            <i class="fas fa-file-alt"></i>
+        </div>
+        <div class="nav-icon">
+            <i class="fas fa-history"></i>
+        </div>
+        <div class="nav-icon">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
 
-        <div class="chat-container">
-            <div class="chat-area">
-                <div class="chat-header">
-                    <i class="fas fa-robot"></i>
-                    <h2>Chat with ALL Claim Cite Tutor</h2>
-                </div>
-                
-                <div class="chat-messages">
-                    <div class="message bot-message">
-                        Hello! I'm your ALL Claim Cite Tutor. I can help you with:
-                        <ul style="padding-left: 20px; margin-top: 8px;">
-                            <li>Legal claim formatting</li>
-                            <li>Citation validation</li>
-                            <li>Reference management</li>
-                            <li>Legal document analysis</li>
-                        </ul>
-                        <span class="message-time">10:03 AM</span>
-                    </div>
-                    
-                    <div class="message user-message">
-                        I need help formatting a legal claim for a personal injury case in California.
-                        <span class="message-time">10:05 AM</span>
-                    </div>
-                    
-                    <div class="message bot-message">
-                        Under California law, a personal injury claim should include:
-                        <ol style="padding-left: 20px; margin-top: 8px;">
-                            <li>Plaintiff and Defendant information</li>
-                            <li>Statement of jurisdiction</li>
-                            <li>Factual allegations (with specific dates)</li>
-                            <li>Legal claims (e.g., negligence)</li>
-                            <li>Damages sought</li>
-                        </ol>
-                        <div class="example-box">
-                            <span class="example-title">Example Format:</span>
-                            <div class="example-content">
-                                "Plaintiff, by and through undersigned counsel, alleges:<br>
-                                1. Defendant was negligent in maintaining the premises.<br>
-                                2. On or about January 15, 2023, Plaintiff fell due to wet floor conditions.<br>
-                                3. Plaintiff suffered physical injuries and emotional distress."
-                            </div>
-                        </div>
-                        <span class="message-time">10:07 AM</span>
-                    </div>
-                </div>
-                
-                <div class="chat-input">
-                    <input type="text" placeholder="Type your legal question here...">
-                    <button>
-                        <i class="fas fa-paper-plane"></i> Send
-                    </button>
-                </div>
+    <!-- Right Column - Chat Interface -->
+    <div class="right-column">
+        <div class="chat-header">
+            <div class="status-dot"></div>
+            <h2>ALL Claim Cite Tutor</h2>
+        </div>
+        
+        <div class="chat-messages">
+            <div class="message bot-message">
+                Hello! I'm ready to help with your legal citation needs. How can I assist you today?
             </div>
             
-            <div class="sidebar">
-                <div class="card">
-                    <div class="card-header">
-                        <i class="fas fa-star"></i>
-                        <span>Key Features</span>
-                    </div>
-                    <div class="card-content">
-                        <ul class="feature-list">
-                            <li>
-                                <i class="fas fa-check-circle"></i>
-                                <div>
-                                    <strong>Automated Citation Validation</strong>
-                                    <p>Verify legal citations against official databases</p>
-                                </div>
-                            </li>
-                            <li>
-                                <i class="fas fa-check-circle"></i>
-                                <div>
-                                    <strong>Claim Format Templates</strong>
-                                    <p>Access jurisdiction-specific templates</p>
-                                </div>
-                            </li>
-                            <li>
-                                <i class="fas fa-check-circle"></i>
-                                <div>
-                                    <strong>Reference Management</strong>
-                                    <p>Organize and format legal references</p>
-                                </div>
-                            </li>
-                            <li>
-                                <i class="fas fa-check-circle"></i>
-                                <div>
-                                    <strong>Real-time Analysis</strong>
-                                    <p>Get instant feedback on claim structure</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">
-                        <i class="fas fa-lightbulb"></i>
-                        <span>Pro Tip</span>
-                    </div>
-                    <div class="card-content">
-                        <p>Always include the specific statute number when citing California legal claims. For personal injury cases, cite <span class="highlight">California Civil Code § 1714</span> for negligence claims.</p>
-                        
-                        <div class="example-box">
-                            <span class="example-title">Proper Citation:</span>
-                            <div class="example-content">
-                                Smith v. Jones, 123 Cal. App. 4th 567 (2004)<br>
-                                Cal. Civ. Code § 1714
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="message user-message">
+                I need help formatting a legal claim for a personal injury case in California.
+            </div>
+            
+            <div class="message bot-message">
+                Under California law, personal injury claims should include:
+                <ol style="padding-left: 20px; margin-top: 8px;">
+                    <li>Plaintiff and Defendant information</li>
+                    <li>Statement of jurisdiction</li>
+                    <li>Factual allegations with specific dates</li>
+                    <li>Legal claims (e.g., negligence)</li>
+                    <li>Damages sought</li>
+                </ol>
+                Would you like me to provide a template?
             </div>
         </div>
         
-        <footer>
-            <div class="footer-content">
-                <p>© 2023 ALL Claim Cite Tutor | AI-Powered Legal Citation Assistant</p>
-                <p>Designed with <i class="fas fa-heart" style="color: var(--dark-orange);"></i> for legal professionals. This tool provides guidance only - always consult with a licensed attorney for legal advice.</p>
-            </div>
-        </footer>
+        <div class="chat-input">
+            <input type="text" placeholder="Type your message...">
+            <button>
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
     </div>
 
     <script>
-        // Add some interactivity for the send button
+        // Simple chat functionality
         document.querySelector('.chat-input button').addEventListener('click', function() {
             const input = document.querySelector('.chat-input input');
             const message = input.value.trim();
@@ -540,20 +266,20 @@
                 const messagesContainer = document.querySelector('.chat-messages');
                 const userMessage = document.createElement('div');
                 userMessage.className = 'message user-message';
-                userMessage.innerHTML = `${message}<span class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
+                userMessage.textContent = message;
                 messagesContainer.appendChild(userMessage);
                 
                 // Clear input
                 input.value = '';
                 
-                // Scroll to bottom
+                // Auto-scroll to bottom
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 
                 // Simulate bot response after delay
                 setTimeout(() => {
                     const botMessage = document.createElement('div');
                     botMessage.className = 'message bot-message';
-                    botMessage.innerHTML = `I understand your question about "${message}". I'll analyze this for you...<br><br>Looking up relevant California case law...<br><br>Found 3 relevant cases. Would you like me to:<ol><li>Explain the key precedents</li><li>Provide citation format</li><li>Generate a draft claim paragraph</li></ol><span class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
+                    botMessage.textContent = "I've received your request. Let me analyze the legal requirements for your case...";
                     messagesContainer.appendChild(botMessage);
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 }, 1000);
@@ -567,14 +293,13 @@
             }
         });
         
-        // Add pulse effect to send button periodically
-        setInterval(() => {
-            const button = document.querySelector('.chat-input button');
-            button.classList.add('pulse');
-            setTimeout(() => {
-                button.classList.remove('pulse');
-            }, 1000);
-        }, 5000);
+        // Nav icon active state
+        document.querySelectorAll('.nav-icon').forEach(icon => {
+            icon.addEventListener('click', function() {
+                document.querySelectorAll('.nav-icon').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
