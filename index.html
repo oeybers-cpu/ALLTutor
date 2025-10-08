@@ -1,298 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic Literacy Tutor</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academic Literacy Tutor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-3hF3x3o4YxS5Xv9f9g7YwYw2Sg3u9Rz5aU0m0q5m9J4q6p2l9J1y0b7J4rS1C2J3lP5Q2E0zG9J6p7V9vYQX0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        :root {
-            --dark-blue: #0a2463;
-            --dark-orange: #ff6b35;
-            --white: #ffffff;
-            --black: #000000;
-            --light-gray: #f5f5f5;
-        }
+    :root {
+      --bg: #0b0d10;            /* page background (near-black) */
+      --surface: #0f1216;       /* cards / header */
+      --surface-2: #151a20;     /* input background */
+      --text: #e6e7e9;          /* primary text */
+      --muted: #a4aab3;         /* secondary text */
+      --border: #232a32;        /* subtle borders */
+      --accent: #9ec5fe;        /* light accent */
+      --accent-2: #7dd3fc;      /* secondary accent */
+    }
 
-        body {
-            background-color: var(--white);
-            color: var(--black);
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-        }
+    html, body { height: 100%; }
 
-        /* Left Column - Minimal Navigation */
-        .left-column {
-            width: 60px;
-            background: var(--dark-blue);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 20px;
-            position: relative;
-        }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+    }
 
-        .left-column::before {
-            content: "";
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--dark-blue), var(--dark-orange));
-        }
+    /* Left Column - Minimal Navigation */
+    .left-column {
+      width: 64px;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 16px;
+      position: relative;
+      border-right: 1px solid var(--border);
+      gap: 8px;
+    }
 
-        .nav-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 15px 0;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+    .nav-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform 120ms ease, background 120ms ease;
+      color: var(--muted);
+    }
 
-        .nav-icon:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
+    .nav-icon:hover { background: var(--surface-2); transform: translateY(-1px); }
+    .nav-icon.active { background: #0e141b; color: var(--accent); outline: 1px solid var(--border); }
 
-        .nav-icon.active {
-            background: var(--dark-orange);
-        }
+    /* Right Column - Chat Interface */
+    .right-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
 
-        .nav-icon i {
-            color: white;
-            font-size: 18px;
-        }
+    /* Chat Header */
+    .chat-header {
+      background: var(--surface);
+      color: var(--text);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
 
-        /* Right Column - Chat Interface */
-        .right-column {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
+    .status-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulse 2s infinite;
+    }
 
-        /* Chat Header */
-        .chat-header {
-            background: var(--dark-blue);
-            color: white;
-            padding: 15px 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(158, 197, 254, 0.5); }
+      70% { box-shadow: 0 0 0 10px rgba(158, 197, 254, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(158, 197, 254, 0); }
+    }
 
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--dark-orange);
-            box-shadow: 0 0 8px var(--dark-orange);
-            animation: pulse 2s infinite;
-        }
+    .chat-header h2 { font-size: 1.05rem; font-weight: 600; letter-spacing: 0.2px; }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 107, 53, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
-        }
+    /* Subtle grid (optional) */
+    .digital-effect.grid-pattern { 
+      position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.05;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
 
-        /* Chat Messages Area */
-        .chat-messages {
-            flex: 1;
-            padding: 25px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            background: var(--light-gray);
-        }
+    /* Chat Messages Area */
+    .chat-messages {
+      flex: 1;
+      padding: 24px 20px 16px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
 
-        .message {
-            max-width: 80%;
-            padding: 12px 18px;
-            border-radius: 16px;
-            line-height: 1.4;
-        }
+    .message {
+      max-width: min(780px, 80%);
+      padding: 12px 16px;
+      border-radius: 14px;
+      line-height: 1.55;
+      font-size: 0.95rem;
+      border: 1px solid var(--border);
+    }
 
-        .user-message {
-            background: var(--dark-blue);
-            color: var(--white);
-            margin-left: auto;
-            border-bottom-right-radius: 5px;
-        }
+    .user-message {
+      margin-left: auto;
+      background: #1a2330; /* slate-like */
+      color: var(--text);
+      border-bottom-right-radius: 6px;
+    }
 
-        .bot-message {
-            background: var(--white);
-            color: var(--black);
-            border: 1px solid #e0e0e0;
-            border-bottom-left-radius: 5px;
-        }
+    .bot-message {
+      background: var(--surface);
+      color: var(--text);
+      border-bottom-left-radius: 6px;
+    }
 
-        /* Chat Input */
-        .chat-input {
-            padding: 15px 20px;
-            border-top: 1px solid #e0e0e0;
-            display: flex;
-            gap: 12px;
-        }
+    /* Chat Input */
+    .chat-input {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      background: var(--surface);
+      z-index: 2;
+    }
 
-        .chat-input input {
-            flex: 1;
-            padding: 12px 18px;
-            border: 2px solid #e0e0e0;
-            border-radius: 45px;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
+    .chat-input input {
+      flex: 1;
+      padding: 12px 16px;
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.95rem;
+      transition: box-shadow 160ms ease, border-color 160ms ease;
+    }
 
-        .chat-input input:focus {
-            outline: none;
-            border-color: var(--dark-orange);
-            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
-        }
+    .chat-input input::placeholder { color: var(--muted); }
 
-        .chat-input button {
-            background: var(--dark-blue);
-            color: var(--white);
-            border: none;
-            border-radius: 45px;
-            padding: 0 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    .chat-input input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(158, 197, 254, 0.12);
+    }
 
-        .chat-input button:hover {
-            background: var(--dark-orange);
-            transform: translateY(-2px);
-        }
+    .chat-input button {
+      padding: 0 18px;
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 150ms ease;
+    }
 
-        /* Digital Effects - Minimal */
-        .digital-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.03;
-        }
+    .chat-input button:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .chat-input button:active { transform: translateY(0); }
 
-        .grid-pattern {
-            background-image: 
-                linear-gradient(rgba(10, 36, 99, 0.7) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(10, 36, 99, 0.7) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
+    /* Thin scrollbar for dark UI */
+    .chat-messages::-webkit-scrollbar { width: 10px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: #21262d; border-radius: 8px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
 
-        /* Minimal text - reduce font sizes */
-        .message {
-            font-size: 0.92rem;
-        }
-
-        .chat-header h2 {
-            font-size: 1.1rem;
-        }
-    </style>
+    /* Reduce motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .status-dot { animation: none; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Left Column - Minimal Navigation -->
-    <div class="left-column">
-        <div class="nav-icon active">
-            <i class="fas fa-comment"></i>
-        </div>
-        <div class="nav-icon">
-            <i class="fas fa-book"></i>
-        </div>
-        <div class="nav-icon">
-            <i class="fas fa-history"></i>
-        </div>
-        <div class="nav-icon">
-            <i class="fas fa-cog"></i>
-        </div>
-    </div>
+  <!-- Left Column - Minimal Navigation (retained, dark styled) -->
+  <aside class="left-column" aria-label="Primary navigation">
+    <div class="nav-icon active" title="Chat"><i class="fas fa-message"></i></div>
+    <div class="nav-icon" title="Library"><i class="fas fa-book"></i></div>
+    <div class="nav-icon" title="History"><i class="fas fa-clock-rotate-left"></i></div>
+    <div class="nav-icon" title="Settings"><i class="fas fa-gear"></i></div>
+  </aside>
 
-    <!-- Right Column - Chat Interface -->
-    <div class="right-column">
-        <div class="chat-header">
-            <div class="status-dot"></div>
-            <h2>Academic Literacy</h2>
-        </div>
-        
-        <div class="chat-messages">
-            <div class="message bot-message">How can I help?</div>
-            <div class="message user-message">Citation help</div>
-            <div class="message bot-message">Which style?</div>
-        </div>
-        
-        <div class="chat-input">
-            <input type="text" placeholder="Ask...">
-            <button>
-                <i class="fas fa-paper-plane"></i>
-            </button>
-        </div>
-    </div>
+  <!-- Right Column - Chat Interface -->
+  <main class="right-column">
+    <div class="digital-effect grid-pattern" aria-hidden="true"></div>
 
-    <script>
-        // Minimal chat functionality
-        document.querySelector('.chat-input button').addEventListener('click', function() {
-            const input = document.querySelector('.chat-input input');
-            const message = input.value.trim();
-            
-            if (message) {
-                // Add user message
-                const messagesContainer = document.querySelector('.chat-messages');
-                const userMessage = document.createElement('div');
-                userMessage.className = 'message user-message';
-                userMessage.textContent = message;
-                messagesContainer.appendChild(userMessage);
-                
-                // Clear input
-                input.value = '';
-                
-                // Auto-scroll to bottom
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                
-                // Simulate bot response
-                setTimeout(() => {
-                    const botMessage = document.createElement('div');
-                    botMessage.className = 'message bot-message';
-                    botMessage.textContent = "Please specify";
-                    messagesContainer.appendChild(botMessage);
-                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                }, 800);
-            }
-        });
-        
-        // Enter key to send
-        document.querySelector('.chat-input input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.querySelector('.chat-input button').click();
-            }
-        });
-        
-        // Nav icon active state
-        document.querySelectorAll('.nav-icon').forEach(icon => {
-            icon.addEventListener('click', function() {
-                document.querySelectorAll('.nav-icon').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    </script>
+    <header class="chat-header">
+      <div class="status-dot" aria-hidden="true"></div>
+      <h2>Academic Literacy</h2>
+    </header>
+
+    <section class="chat-messages" id="chat">
+      <div class="message bot-message">How may I assist you today?</div>
+      <div class="message user-message">Citation help</div>
+      <!-- Removed the "Which style?" bar per request -->
+    </section>
+
+    <div class="chat-input">
+      <input type="text" id="prompt" placeholder="Type your message…" aria-label="Message input" />
+      <button id="send" aria-label="Send message"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </main>
+
+  <script>
+    const input = document.getElementById('prompt');
+    const sendBtn = document.getElementById('send');
+    const messages = document.getElementById('chat');
+
+    function addMessage(text, role = 'user') {
+      const div = document.createElement('div');
+      div.className = `message ${role === 'user' ? 'user-message' : 'bot-message'}`;
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function handleSend() {
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage(text, 'user');
+      input.value = '';
+
+      // Simulated assistant response
+      setTimeout(() => {
+        addMessage('Please provide more detail so that I can respond precisely.', 'bot');
+      }, 600);
+    }
+
+    sendBtn.addEventListener('click', handleSend);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleSend();
+    });
+
+    // Nav icon active state (cosmetic)
+    document.querySelectorAll('.nav-icon').forEach(icon => {
+      icon.addEventListener('click', function () {
+        document.querySelectorAll('.nav-icon').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
-
